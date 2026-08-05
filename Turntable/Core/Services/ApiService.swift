@@ -20,18 +20,19 @@ enum ApiServiceError: LocalizedError {
 struct ApiService {
     private let baseUrl = "https://itunes.apple.com"
 
-    func search(for term: String) async throws -> [Song] {
-        guard !term.isEmpty else { return [Song]() }
+    func search(for term: String) async throws -> SongsResponse {
+        guard !term.isEmpty else { return SongsResponse.empty }
 
         var urlComponents = URLComponents(string: "\(baseUrl)/search")!
         urlComponents.queryItems = [
             URLQueryItem(name: "term", value: term),
             URLQueryItem(name: "media", value: "music"),
+            URLQueryItem(name: "entity", value: "song"),
         ]
 
         let (data, response) = try await URLSession.shared.data(from: urlComponents.url!)
         try handleStatus(response, data)
-        return try JSONDecoder().decode([Song].self, from: data)
+        return try JSONDecoder().decode(SongsResponse.self, from: data)
     }
 
     // MARK: - Private helpers
