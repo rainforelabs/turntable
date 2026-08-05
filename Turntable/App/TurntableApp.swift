@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct TurntableApp: App {
+    private let appModel = AppModel()
+
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .inject(appModel)
         }
     }
 }
