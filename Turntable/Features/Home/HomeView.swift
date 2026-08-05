@@ -43,9 +43,9 @@ struct HomeView: View {
             .padding(.vertical, 8)
         }
         .safeAreaBar(edge: .bottom) {
-            // if playerModel.currentSong != nil {
+            if playerModel.currentSong != nil {
                 PlayerView()
-            // }
+            }
         }
     }
 }
